@@ -13,13 +13,26 @@ import org.apache.hadoop.mapreduce.Reducer;
  */
 public class IndexReducer extends Reducer<Text, Text, Text, Text> {
 
-  @Override
-  public void reduce(Text key, Iterable<Text> values, Context context)
-      throws IOException, InterruptedException {
+	@Override
+	public void reduce(Text key, Iterable<Text> values, Context context)
+			throws IOException, InterruptedException {
 
-    /*
-     * TODO implement
-     */
-    
-  }
+		/*
+		 * DONE TODO implement
+		 */
+		Text text = new Text();
+		boolean init = true;
+		String string = "";
+
+		for (Text val : values) {
+			if(init) { //after first word assign
+				string = val.toString();
+				init = false;
+			} else {
+				string += ("," + val.toString());
+			}
+		}
+		text.set(string);
+		context.write(key, text);
+	}
 }

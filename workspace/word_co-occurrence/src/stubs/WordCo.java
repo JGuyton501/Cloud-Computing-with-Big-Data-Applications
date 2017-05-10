@@ -1,10 +1,14 @@
 package stubs;
 
 import org.apache.hadoop.mapreduce.Job;
-
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.reduce.IntSumReducer;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.conf.Configuration;
-
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
@@ -25,6 +29,14 @@ public class WordCo extends Configured implements Tool {
     /*
      * TODO implement
      */
+    FileInputFormat.setInputPaths(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    
+    job.setMapperClass(WordCoMapper.class);
+    job.setReducerClass(IntSumReducer.class);
+    
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
 
     boolean success = job.waitForCompletion(true);
     return success ? 0 : 1;

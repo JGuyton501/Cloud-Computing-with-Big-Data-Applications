@@ -1,9 +1,15 @@
 package stubs;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+
 
 /*
  * This driver class is called using the ToolRunner.run method
@@ -22,16 +28,26 @@ public class WordCountDriver extends Configured implements Tool {
 
     Job job = new Job(getConf());
     job.setJarByClass(WordCountDriver.class);
-    job.setJobName("Word Count Driver");
+    //job.setJobName("Word Count Driver");
+    job.setJobName("Real Word Count without Combiner");
 
     /*
      * TODO implement
      */
+    FileInputFormat.setInputPaths(job, new Path(args[0]));
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-    if (job.getCombinerClass() == null) {
-      throw new Exception("Combiner not set");
-    }
-
+    job.setMapperClass(WordMapper.class);
+    job.setReducerClass(SumReducer.class);
+    //job.setCombinerClass(SumReducer.class);
+    
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(IntWritable.class);
+    
+//    if (job.getCombinerClass() == null) {
+//      throw new Exception("Combiner not set");
+//    }
+    
     boolean success = job.waitForCompletion(true);
     return success ? 0 : 1;
   }

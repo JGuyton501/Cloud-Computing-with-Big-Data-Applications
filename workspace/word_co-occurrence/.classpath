@@ -160,5 +160,8 @@
 	<classpathentry kind="lib" path="/usr/lib/hadoop/parquet-thrift.jar"/>
 	<classpathentry kind="lib" path="/usr/lib/hadoop/parquet-tools.jar"/>
 	<classpathentry kind="lib" path="/home/training/lib/mrunit-0.9.0-incubating-hadoop2.jar"/>
+	<classpathentry kind="lib" path="/usr/lib/hadoop/client-0.20/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="/usr/lib/hadoop/client-0.20/slf4j-api-1.7.5.jar"/>
+	<classpathentry kind="lib" path="/usr/lib/hadoop/client-0.20/slf4j-log4j12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

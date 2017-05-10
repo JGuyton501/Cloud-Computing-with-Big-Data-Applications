@@ -43,7 +43,8 @@ public class StringPairTestDriver extends Configured implements Tool {
 	 * Set the key output class for the job
 	 */   
     
-    /* TODO: implement */
+    /* DONE TODO: implement */
+    job.setOutputKeyClass(StringPairWritable.class);
     
     /*
      * Set the value output class for the job

@@ -32,8 +32,10 @@ public class StringPairWritable implements WritableComparable<StringPairWritable
   public void write(DataOutput out) throws IOException {
     
     /*
-     * TODO implement
+     * DONE TODO implement
      */
+	  out.writeUTF(right);
+	  out.writeUTF(left);
     
   }
 
@@ -43,9 +45,10 @@ public class StringPairWritable implements WritableComparable<StringPairWritable
   public void readFields(DataInput in) throws IOException {
     
     /*
-     * TODO implement
+     * DONE TODO implement
      */
-    
+	  right = in.readUTF();
+	  left = in.readUTF();
   }
 
   /**
@@ -57,9 +60,12 @@ public class StringPairWritable implements WritableComparable<StringPairWritable
     int ret = 0;
     
     /*
-     * TODO implement
+     * DONE TODO implement
      */
-    
+    ret = left.compareTo(other.left); //compare left to left
+    if (ret == 0) {
+    	return right.compareTo(other.right); //if equal, then compare right to right
+    }
     return ret;
   }
 

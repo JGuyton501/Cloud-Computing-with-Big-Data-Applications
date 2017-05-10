@@ -1,8 +1,14 @@
 package stubs;
 import org.apache.hadoop.mapreduce.Job;
-
+import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.SequenceFile.CompressionType;
+import org.apache.hadoop.io.compress.SnappyCodec;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
@@ -21,9 +27,20 @@ public class CreateSequenceFile extends Configured implements Tool {
     job.setJobName("Create Sequence File");
 
     /*
-     * TODO implement
+     * DONE TODO implement
      */
-
+    job.setNumReduceTasks(0);
+    
+    FileInputFormat.setInputPaths(job,  new Path(args[0])); //set inputs/outputs 
+    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+    job.setOutputFormatClass(SequenceFileOutputFormat.class);
+    //job.setMapperClass(SeqMapper.class);
+    
+    //compression
+	FileOutputFormat.setCompressOutput(job, true);
+	FileOutputFormat.setOutputCompressorClass(job, SnappyCodec.class);
+	SequenceFileOutputFormat.setOutputCompressionType(job, CompressionType.BLOCK);
+      
     boolean success = job.waitForCompletion(true);
     return success ? 0 : 1;
   }
